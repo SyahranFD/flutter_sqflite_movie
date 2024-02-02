@@ -12,6 +12,12 @@ figmaFontsize(int fontSize) {
   return fontSize * 1.2;
 }
 
+TextStyle tsTitlePage = GoogleFonts.poppins(
+  color: whiteColor,
+  fontWeight: FontWeight.w600,
+  fontSize: figmaFontsize(16),
+);
+
 TextStyle tsTitleMovie = GoogleFonts.poppins(
   color: greyColor,
   fontWeight: FontWeight.w400,

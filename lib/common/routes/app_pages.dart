@@ -15,13 +15,13 @@ class AppPages {
   static final routes = [
     GetPage(
       name: _Paths.HOME_PAGE,
-      page: () => const HomePageView(),
+      page: () => HomePageView(),
       binding: HomePageBinding(),
       transition: Transition.noTransition,
     ),
     GetPage(
       name: _Paths.WATCHLIST_PAGE,
-      page: () => const WatchlistPageView(),
+      page: () => WatchlistPageView(),
       binding: WatchlistPageBinding(),
       transition: Transition.noTransition,
     ),
