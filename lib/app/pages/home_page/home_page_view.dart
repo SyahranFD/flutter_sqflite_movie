@@ -50,7 +50,7 @@ class HomePageView extends StatelessWidget {
                         itemBuilder: (context, index) {
                           var movie = snapshot.data![index];
 
-                          return Container(
+                          return SizedBox(
                               width: double.infinity,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,

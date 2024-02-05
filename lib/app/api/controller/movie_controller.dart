@@ -47,54 +47,54 @@ class MovieController extends GetxController {
   }
 
   void initDatabase() async {
-    String db_name = "db_movie";
-    int db_version = 1;
+    String dbName = "db_movie";
+    int dbVersion = 1;
     String tableMovie = "movie";
     String tableWatchlist = "watchlist";
     String id = "id";
-    String original_title = "original_title";
+    String originalTitle = "original_title";
     String title = "title";
-    String backdrop_path = "backdrop_path";
+    String backdropPath = "backdrop_path";
     String overview = "overview";
     String popularity = "popularity";
-    String poster_path = "poster_path";
-    String release_date = "release_date";
-    String vote_average = "vote_average";
-    String vote_count = "vote_count";
-    String original_language = "original_language";
+    String posterPath = "poster_path";
+    String releaseDate = "release_date";
+    String voteAverage = "vote_average";
+    String voteCount = "vote_count";
+    String originalLanguage = "original_language";
     Directory directory = await getApplicationDocumentsDirectory();
-    String path = directory.path + db_name;
+    String path = directory.path + dbName;
 
-    database ??= await openDatabase(path, version: db_version,
+    database ??= await openDatabase(path, version: dbVersion,
         onCreate: (db, version) {
           print(path);
           db.execute('''
       CREATE TABLE IF NOT EXISTS $tableMovie (
-            $backdrop_path VARCHAR(255),
+            $backdropPath VARCHAR(255),
             $id INTEGER PRIMARY KEY,
-            $original_language VARCHAR(255),
-            $original_title VARCHAR(255),
+            $originalLanguage VARCHAR(255),
+            $originalTitle VARCHAR(255),
             $overview TEXT,
             $popularity DOUBLE,
-            $poster_path VARCHAR(255),
-            $release_date DATE,
+            $posterPath VARCHAR(255),
+            $releaseDate DATE,
             $title VARCHAR(255),
-            $vote_average DOUBLE,
-            $vote_count INTEGER
+            $voteAverage DOUBLE,
+            $voteCount INTEGER
           )''');
 
           db.execute('''
       CREATE TABLE IF NOT EXISTS $tableWatchlist (
             $id INTEGER PRIMARY KEY,
-            $original_language VARCHAR(255),
-            $original_title VARCHAR(255),
+            $originalLanguage VARCHAR(255),
+            $originalTitle VARCHAR(255),
             $overview TEXT,
             $popularity DOUBLE,
-            $poster_path VARCHAR(255),
-            $release_date DATE,
+            $posterPath VARCHAR(255),
+            $releaseDate DATE,
             $title VARCHAR(255),
-            $vote_average DOUBLE,
-            $vote_count INTEGER
+            $voteAverage DOUBLE,
+            $voteCount INTEGER
           )''');
         });
   }
@@ -103,7 +103,7 @@ class MovieController extends GetxController {
   void addMovie(MovieModel movie) async {
     String table = "movie";
     Directory directory = await getApplicationDocumentsDirectory();
-    String path = directory.path + "db_movie";
+    String path = "${directory.path}db_movie";
     database = await openDatabase(path);
 
     await database!.insert(table, movie.toJson());
@@ -116,9 +116,9 @@ class MovieController extends GetxController {
     database = await openDatabase(path);
     final data = await database!.query(table);
     List<MovieModel> movie = data.map((e) => MovieModel.fromJson(e)).toList();
-    movie.forEach((element) {
+    for (var element in movie) {
       print(element.title);
-    });
+    }
     return movie;
   }
 }

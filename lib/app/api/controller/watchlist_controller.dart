@@ -1,10 +1,7 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter_sqflite_movie/app/api/constant/url.dart';
 import 'package:flutter_sqflite_movie/app/api/model/movie_model.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -21,7 +18,7 @@ class WatchListController extends GetxController {
   void addWatchlist(MovieModel movie) async {
     String table = "watchlist";
     Directory directory = await getApplicationDocumentsDirectory();
-    String path = directory.path + "db_movie";
+    String path = "${directory.path}db_movie";
     database = await openDatabase(path);
 
     await database!.insert(table, movie.toJson());
@@ -43,5 +40,20 @@ class WatchListController extends GetxController {
     String path = "${directory.path}db_movie";
     database = await openDatabase(path);
     await database!.delete(table, where: "id = ?", whereArgs: [id]);
+  }
+
+  Future<bool> isSelected(int id) async {
+    String table = "watchlist";
+    Directory directory = await getApplicationDocumentsDirectory();
+    String path = "${directory.path}db_movie";
+    database = await openDatabase(path);
+
+    final data = database?.query(table, where: "id = ?", whereArgs: [id]);
+
+    if (data != null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

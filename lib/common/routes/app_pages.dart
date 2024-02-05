@@ -21,7 +21,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.WATCHLIST_PAGE,
-      page: () => WatchlistPageView(),
+      page: () => const WatchlistPageView(),
       binding: WatchlistPageBinding(),
       transition: Transition.noTransition,
     ),
