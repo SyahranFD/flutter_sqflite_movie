@@ -11,7 +11,7 @@ class WatchListController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
+    getWatchlist();
     super.onInit();
   }
 
@@ -49,6 +49,8 @@ class WatchListController extends GetxController {
 
     final data = await database!.query(table);
     List<MovieModel> movie = data.map((e) => MovieModel.fromJson(e)).toList();
+    listWatchlist.clear();
+    listWatchlist.value = movie;
     return movie;
   }
 
