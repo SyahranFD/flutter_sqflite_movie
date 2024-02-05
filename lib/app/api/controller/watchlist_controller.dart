@@ -6,8 +6,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class WatchListController extends GetxController {
-  final isLoading = false.obs;
   Database? database;
+  RxList<MovieModel> listWatchlist = <MovieModel>[].obs;
 
   @override
   void onInit() {
@@ -21,7 +21,27 @@ class WatchListController extends GetxController {
     String path = "${directory.path}db_movie";
     database = await openDatabase(path);
 
+    final existingMovies = await database!.query(
+      table,
+      where: "id = ?",
+      whereArgs: [movie.id],
+    );
+
+    if (existingMovies.isNotEmpty) {
+      await database!.delete(
+        table,
+        where: "id = ?",
+        whereArgs: [movie.id],
+      );
+    }
+
     await database!.insert(table, movie.toJson());
+
+    if (!listWatchlist.contains(movie)) {
+      listWatchlist.add(movie);
+    } else {
+      listWatchlist.remove(movie);
+    }
   }
 
   Future<List<MovieModel>> getWatchlist() async {
@@ -29,6 +49,7 @@ class WatchListController extends GetxController {
     Directory directory = await getApplicationDocumentsDirectory();
     String path = "${directory.path}db_movie";
     database = await openDatabase(path);
+
     final data = await database!.query(table);
     List<MovieModel> movie = data.map((e) => MovieModel.fromJson(e)).toList();
     return movie;
@@ -39,21 +60,13 @@ class WatchListController extends GetxController {
     Directory directory = await getApplicationDocumentsDirectory();
     String path = "${directory.path}db_movie";
     database = await openDatabase(path);
+
     await database!.delete(table, where: "id = ?", whereArgs: [id]);
+
+    listWatchlist.removeWhere((element) => element.id == id);
   }
 
-  Future<bool> isSelected(int id) async {
-    String table = "watchlist";
-    Directory directory = await getApplicationDocumentsDirectory();
-    String path = "${directory.path}db_movie";
-    database = await openDatabase(path);
-
-    final data = database?.query(table, where: "id = ?", whereArgs: [id]);
-
-    if (data != null) {
-      return true;
-    } else {
-      return false;
-    }
+  bool isSelected(int id) {
+    return listWatchlist.any((element) => element.id == id);
   }
 }

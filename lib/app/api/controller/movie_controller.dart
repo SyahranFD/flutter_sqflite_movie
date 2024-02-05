@@ -24,7 +24,7 @@ class MovieController extends GetxController {
   Future fetchMovie() async {
     print('fetch movie dijalankan');
     try {
-      listMovie.clear();
+      deleteAllData();
       isLoading.value = true;
       var response = await http.get(Uri.parse(baseUrl), headers: {
         'Accept': 'application/json',
@@ -71,7 +71,7 @@ class MovieController extends GetxController {
           db.execute('''
       CREATE TABLE IF NOT EXISTS $tableMovie (
             $backdropPath VARCHAR(255),
-            $id INTEGER PRIMARY KEY,
+            $id INTEGER,
             $originalLanguage VARCHAR(255),
             $originalTitle VARCHAR(255),
             $overview TEXT,
@@ -85,7 +85,8 @@ class MovieController extends GetxController {
 
           db.execute('''
       CREATE TABLE IF NOT EXISTS $tableWatchlist (
-            $id INTEGER PRIMARY KEY,
+            $backdropPath VARCHAR(255),
+            $id INTEGER,
             $originalLanguage VARCHAR(255),
             $originalTitle VARCHAR(255),
             $overview TEXT,
@@ -107,6 +108,15 @@ class MovieController extends GetxController {
     database = await openDatabase(path);
 
     await database!.insert(table, movie.toJson());
+  }
+
+  Future<void> deleteAllData() async {
+    String table = "movie";
+    Directory directory = await getApplicationDocumentsDirectory();
+    String path = "${directory.path}db_movie";
+    database = await openDatabase(path);
+
+    await database!.delete(table);
   }
 
   Future<List<MovieModel>> getDataMovie() async {
