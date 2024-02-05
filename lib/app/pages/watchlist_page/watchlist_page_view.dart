@@ -87,16 +87,13 @@ class WatchlistPageView extends StatelessWidget {
                                       ),
                                     ),
                                     Obx(() {
-                                      bool isSelected = watchListController
-                                          .isSelected(movie.id!);
+                                      bool isSelected = watchListController.isSelected(movie.id!);
                                       return isSelected
                                           ? InkWell(
                                               onTap: () {
                                                 watchListController.deleteData(movie.id!);
                                                 watchListController.isSelected(movie.id!);
                                                 Get.toNamed('/watchlist');
-                                                print(watchListController.listWatchlist.length);
-                                                print(isSelected);
                                               },
                                               child: Align(
                                                 alignment: Alignment.topRight,
@@ -110,8 +107,6 @@ class WatchlistPageView extends StatelessWidget {
                                               onTap: () {
                                                 watchListController.addWatchlist(movie);
                                                 watchListController.isSelected(movie.id!);
-                                                print(watchListController.listWatchlist.length);
-                                                print(isSelected);
                                               },
                                               child: Align(
                                                 alignment: Alignment.topRight,

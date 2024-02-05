@@ -101,8 +101,6 @@ class HomePageView extends StatelessWidget {
                                                     onTap: () {
                                                       watchListController.deleteData(movie.id!);
                                                       watchListController.isSelected(movie.id!);
-                                                      print(watchListController.listWatchlist.length);
-                                                      print(isSelected);
                                                     },
                                                     child: Align(
                                                       alignment: Alignment.topRight,
@@ -116,8 +114,6 @@ class HomePageView extends StatelessWidget {
                                                     onTap: () {
                                                       watchListController.addWatchlist(movie);
                                                       watchListController.isSelected(movie.id!);
-                                                      print(watchListController.listWatchlist.length);
-                                                      print(isSelected);
                                                     },
                                                     child: Align(
                                                       alignment: Alignment.topRight,
