@@ -36,12 +36,9 @@ class WatchListController extends GetxController {
     }
 
     await database!.insert(table, movie.toJson());
+    await getWatchlist();
 
-    if (!listWatchlist.contains(movie)) {
-      listWatchlist.add(movie);
-    } else {
-      listWatchlist.remove(movie);
-    }
+    listWatchlist.add(movie);
   }
 
   Future<List<MovieModel>> getWatchlist() async {
@@ -57,5 +54,17 @@ class WatchListController extends GetxController {
 
   bool isSelected(int id) {
     return listWatchlist.any((element) => element.id == id);
+  }
+
+  Future<void> deleteData(int id) async {
+    String table = "watchlist";
+    Directory directory = await getApplicationDocumentsDirectory();
+    String path = "${directory.path}db_movie";
+    database = await openDatabase(path);
+
+    await database!.delete(table, where: "id = ?", whereArgs: [id]);
+    await getWatchlist();
+
+    listWatchlist.removeWhere((element) => element.id == id);
   }
 }
