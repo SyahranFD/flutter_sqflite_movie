@@ -55,17 +55,6 @@ class WatchListController extends GetxController {
     return movie;
   }
 
-  Future<void> delete(int id) async {
-    String table = "watchlist";
-    Directory directory = await getApplicationDocumentsDirectory();
-    String path = "${directory.path}db_movie";
-    database = await openDatabase(path);
-
-    await database!.delete(table, where: "id = ?", whereArgs: [id]);
-
-    listWatchlist.removeWhere((element) => element.id == id);
-  }
-
   bool isSelected(int id) {
     return listWatchlist.any((element) => element.id == id);
   }

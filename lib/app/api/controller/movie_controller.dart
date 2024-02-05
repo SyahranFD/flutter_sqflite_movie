@@ -24,12 +24,12 @@ class MovieController extends GetxController {
   Future fetchMovie() async {
     print('fetch movie dijalankan');
     try {
-      deleteAllData();
       isLoading.value = true;
       var response = await http.get(Uri.parse(baseUrl), headers: {
         'Accept': 'application/json',
       });
       if (response.statusCode == 200) {
+        deleteAllData();
         final content = json.decode(response.body)['results'];
         for (var item in content) {
           // listMovie.add(MovieModel.fromJson(item));
